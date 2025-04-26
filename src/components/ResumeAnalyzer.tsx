@@ -205,10 +205,12 @@ function ResumeAnalyzer() {
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div className="flex items-center gap-2">
-                          <Progress
-                            value={percent}
-                            className="w-24"
-                          />
+                          <div className="w-24 p-[1px] rounded-full bg-gradient-to-r from-purple-600 to-blue-500">
+                            <Progress
+                              value={percent}
+                              className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-purple-600 [&>div]:to-blue-500"
+                            />
+                          </div>
                           <span className="text-gray-600">
                             {percent.toFixed(1)}%
                           </span>
