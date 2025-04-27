@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from "react";
 import axios from "axios";
 import { useToast } from "@/components/ui/use-toast";
@@ -63,7 +62,7 @@ function ResumeAnalyzer() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/analyze_resume/",
+        `${import.meta.env.VITE_BACKEND_URL}/analyze_resume/`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -181,43 +180,45 @@ function ResumeAnalyzer() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {result.role_percentages.map(([role, percent]: [string, number]) => (
-                    <tr
-                      key={role}
-                      className="hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="px-6 py-4 text-sm text-gray-800">
-                        {formatText(role)}
-                      </td>
-                      <td className="px-6 py-4 text-sm text-gray-600">
-                        <div className="flex flex-wrap gap-1">
-                          {result.matched_keywords[role]?.map(
-                            (keyword: string) => (
-                              <span
-                                key={keyword}
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
-                              >
-                                {formatText(keyword)}
-                              </span>
-                            )
-                          ) || "N/A"}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-sm">
-                        <div className="flex items-center gap-2">
-                          <div className="w-24 p-[1px] rounded-full bg-gradient-to-r from-purple-600 to-blue-500">
-                            <Progress
-                              value={percent}
-                              className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-purple-600 [&>div]:to-blue-500"
-                            />
+                  {result.role_percentages.map(
+                    ([role, percent]: [string, number]) => (
+                      <tr
+                        key={role}
+                        className="hover:bg-gray-50 transition-colors"
+                      >
+                        <td className="px-6 py-4 text-sm text-gray-800">
+                          {formatText(role)}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">
+                          <div className="flex flex-wrap gap-1">
+                            {result.matched_keywords[role]?.map(
+                              (keyword: string) => (
+                                <span
+                                  key={keyword}
+                                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800"
+                                >
+                                  {formatText(keyword)}
+                                </span>
+                              )
+                            ) || "N/A"}
                           </div>
-                          <span className="text-gray-600">
-                            {percent.toFixed(1)}%
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                        <td className="px-6 py-4 text-sm">
+                          <div className="flex items-center gap-2">
+                            <div className="w-24 p-[1px] rounded-full bg-gradient-to-r from-purple-600 to-blue-500">
+                              <Progress
+                                value={percent}
+                                className="h-5 [&>div]:bg-gradient-to-r [&>div]:from-purple-600 [&>div]:to-blue-500"
+                              />
+                            </div>
+                            <span className="text-gray-600">
+                              {percent.toFixed(1)}%
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>
